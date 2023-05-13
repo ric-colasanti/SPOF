@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>SPOF</title>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="img/life.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        .bgTextBox {
+            background-color: rgb(241, 241, 241);
+            padding: 10px;
+        }
+
+        .bgDemo {
+            border-style: solid;
+            border-width: 0.5px;
+            padding: 10px;
+        }
+
+        .highlight pre {
+            white-space: pre-wrap;
+        }
+
+        .nav-item {
+            cursor: pointer;
+        }
+
+        .ref {
+            font-size: small;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body ng-app="rlcApp">
+    <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="">SPOF</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <!-- Dropdown -->
+                    <li></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                            Drop
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="">Item</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <br />
+    <div class="container">
+        <br>
+        <br>
+        <h2>TITLE</h2>
+        <br />
+        <br />
+        <h4>
+            <a href="/PyHASE/Schelling/Schelling.html">
+                Section</a>
+        </h4>
+        <div class="ref">
+            Lorem ipsum dolor sit amet, consequat id elit nisi qui velit irure in amet labore
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="img/Schelling.png" width="100%" />
+            </div>
+
+            <div class="col-sm-8 bgTextBox">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sagittis libero leo, vitae accumsan neque convallis vel. Mauris consequat ligula sit amet sollicitudin tincidunt. Sed velit enim, euismod vel pellentesque volutpat, scelerisque sed purus. Nam in dolor a nibh scelerisque hendrerit vel ac sapien. Nulla mattis est non ullamcorper tempus. Vivamus quis ipsum tincidunt, eleifend elit vitae, eleifend velit. Aliquam nec nibh et sapien fermentum venenatis. Duis quis urna mattis, tincidunt nibh eu, mollis mi. Maecenas eget ullamcorper odio. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed ac congue tortor. Maecenas molestie nulla enim, vitae. 
+                </p>
+            </div>
+        </div>
+        <br />
+        <br />
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-random@3"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>    
