@@ -4,11 +4,15 @@
 
 
     const groups=[
-        ["f","upper"],
-        ["f","lower"],
-        ["m","upper"],
-        ["m","lower"],
-    ]
+        ["f","16-34"],
+        ["f","35-44"],
+        ["f","45-64"],
+        ["f","65+"],
+        ["m","16-34"],
+        ["m","35-44"],
+        ["m","45-64"],
+        ["m","65+"],
+        ]
     const schema=2
     const month=10
     const perception_bias = 1
@@ -35,15 +39,7 @@
         return array
     }
 
-    function nomalise(array){
-        var sum = 0
-        for (let i = 0; i < array.length; i++) {
-            sum+= array[i];
-        }
-        for (let i = 0; i < array.length; i++) {
-            array[i] =  array[i]/sum;
-        }
-    }
+
     
 
 
@@ -80,7 +76,7 @@
                 }
                 for (let j = 0; j < groups[1].length; j++) {
                     if(!(groups[1][j] in dict[groups[i][0]])){
-                        dict[groups[i][0]][groups[i][1]]={"raw":ZeroArray(schema),"descriptiveNorm":ZeroArray(schema),"weightedDescriptiveNorm":ZeroArray(schema)}
+                        dict[groups[i][0]][groups[i][1]]={"descriptiveNormRaw":ZeroArray(schema),"descriptiveNorm":ZeroArray(schema),"weightedDescriptiveNorm":ZeroArray(schema)}
                     }
                 }     
             }
@@ -93,7 +89,46 @@
         }
         this.groups = generateGroups()
     }
-    Population.prototype.update = function(){
+
+    Population.prototype.normDescriptiveNormRaw = function (){
+        for (const gender in this.groups) {
+            for (const age in this.groups[gender]){
+                var sum = 0
+                for (let i = 0; i < this.groups[gender][age].descriptiveNormRaw.length; i++) {
+                    sum+= this.groups[gender][age].descriptiveNormRaw[i];
+                }
+                for (let i = 0; i < array.length; i++) {
+                    this.groups[gender][age].descriptiveNorm[i]=this.groups[gender][age].descriptiveNormRaw[i]/sum
+                    this.groups[gender][age].descriptiveNormRaw[i]=0 /// clear for next iteration
+                }
+            }
+        }
+    }
+    Population.prototype.calcWeightedDescriptiveNorm =  function(){
+        const sumShared = groups.length/2+2
+        for (const gender in this.groups) {
+            for (const age in this.groups[gender]){
+                for(var i=0; i<schema;i++){
+                    this.groups[gender][age].weightedDescriptiveNorm[i]=0
+                    for (const genderInner in this.groups) {
+                        for (const ageInner in this.groups[genderInner]){
+                            var weight = 0
+                            if(age ==ageInner){
+                                weight++;
+                            }
+                            if(gender == genderInner){
+                                weight ++
+                            }
+                            this.groups[gender][age].weightedDescriptiveNorm[i]+=this.groups[genderInner][ageInner].descriptiveNorm[i]*weight    
+                        }
+                    }
+                    this.groups[gender][age].weightedDescriptiveNorm[i]/=sumShared
+                }
+            }
+        }
+    }
+
+    Population.prototype.updatePopulation=function(){
         for (let i = 0; i < this.people.length; i++) {
             const person = this.people[i]
             const gender = person.gender
@@ -101,22 +136,33 @@
             const group = this.groups[gender][age]
             for (let j = 0; j < person.currentEatingHistory.length; j++) {
                 eat = person.currentEatingHistory[j];
-                group.raw[eat]+=1   
-            }
-            nomalise(group.raw)
-        }
-        for (const gender in this.groups) {
-            for (const age in this.groups[gender]){
-                console.log(gender,age,this.groups[gender][age].raw);
+                group.descriptiveNormRaw[eat]+=1   
             }
         }
     }
+
+    Population.prototype.update = function(){
+        this.updatePopulation()
+        this.normDescriptiveNormRaw()
+        this.calcWeightedDescriptiveNorm()
+    }
     Population.prototype.toString = function(){
-        console.log(this.people.length);
-        for ( let i =0; i<this.people.length; i++){
-            console.log(this.people[i]);
-        }
+        // console.log(this.people.length);
+        // for ( let i =0; i<this.people.length; i++){
+        //     console.log(this.people[i]);
+        // }
+        for (const gender in this.groups) {
+            for (const age in this.groups[gender]){
+                var total = 0
+                for(var i=0;i<schema;i++){
+                    total+=this.groups[gender][age].weightedDescriptiveNorm[i]
+                }
+                console.log(this.groups[gender][age].weightedDescriptiveNorm,total);
+            }
+        }       
     }
     var test = new Population(50)
     test.update()
+    test.calcWeightedDescriptiveNorm()
+    test.toString()
 }());
